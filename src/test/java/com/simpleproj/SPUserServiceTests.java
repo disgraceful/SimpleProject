@@ -10,8 +10,6 @@ import com.simpleproj.repository.SPProjectRepository;
 import com.simpleproj.repository.SPUserRepository;
 
 @RunWith(SpringRunner.class)
-
-@DataJpaTest
 public class SPUserServiceTests {
 
 	@Autowired

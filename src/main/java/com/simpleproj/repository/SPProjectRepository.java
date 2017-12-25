@@ -7,5 +7,5 @@ import com.simpleproj.model.SPProject;
 
 @Repository
 public interface SPProjectRepository extends JpaRepository<SPProject, Long>{
-
+	public SPProject findProjectByName(String name);
 }

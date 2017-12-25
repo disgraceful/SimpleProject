@@ -14,15 +14,16 @@ import com.simpleproj.repository.SPUserRepository;
 
 @Service
 public class SPTaskService {
+	private final SPProjectRepository projRepo;
+	private final SPUserRepository userRepo;
+	private final SPTaskRepository taskRepo;
 
 	@Autowired
-	private SPProjectRepository projRepo;
-
-	@Autowired
-	private SPUserRepository userRepo;
-
-	@Autowired
-	private SPTaskRepository taskRepo;
+	public SPTaskService(SPProjectRepository projRepo, SPUserRepository userRepo, SPTaskRepository taskRepo) {
+		this.projRepo = projRepo;
+		this.userRepo = userRepo;
+		this.taskRepo = taskRepo;
+	}
 
 	@Transactional
 	public SPTask getTaskById(long id) {
@@ -31,7 +32,7 @@ public class SPTaskService {
 		}
 		return taskRepo.findOne(id);
 	}
-	
+
 	@Transactional
 	public SPTask getTaskByName(String name) {
 		if (name.trim().isEmpty()) {
@@ -47,7 +48,7 @@ public class SPTaskService {
 
 	@Transactional
 	public SPTask createTask(String name, Calendar date) {
-		if (name.trim().isEmpty()) {
+		if (name.trim().isEmpty() || date == null) {
 			throw new IllegalArgumentException();
 		}
 		try {
@@ -55,7 +56,8 @@ public class SPTaskService {
 			cal.setLenient(false);
 			cal.setTime(date.getTime());
 			cal.getTime();
-			return taskRepo.save(new SPTask(name, cal));
+			SPTask task = new SPTask(name, date);
+			return taskRepo.save(task);
 		} catch (Exception e) {
 			throw new IllegalArgumentException();
 		}
@@ -63,11 +65,11 @@ public class SPTaskService {
 	}
 
 	@Transactional
-	public void deleteTask(SPTask project) {
-		if (project == null) {
+	public void deleteTask(SPTask task) {
+		if (task == null) {
 			throw new IllegalArgumentException();
 		}
-		taskRepo.delete(project);
+		taskRepo.delete(task);
 	}
 
 	@Transactional
@@ -83,7 +85,7 @@ public class SPTaskService {
 		if (id < 1 || id > Long.MAX_VALUE) {
 			throw new IllegalArgumentException();
 		}
-		return userRepo.getOne(id).getTasks();
+		return userRepo.findOne(id).getTasks();
 	}
 
 	@Transactional
@@ -91,7 +93,7 @@ public class SPTaskService {
 		if (id < 1 || id > Long.MAX_VALUE) {
 			throw new IllegalArgumentException();
 		}
-		return projRepo.getOne(id).getTasks();
+		return projRepo.findOne(id).getTasks();
 	}
 
 	@Transactional
