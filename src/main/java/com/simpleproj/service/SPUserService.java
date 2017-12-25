@@ -5,17 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
- 
+
 import com.simpleproj.model.SPProject;
-import com.simpleproj.model.SPTask;
 import com.simpleproj.model.SPUser;
 import com.simpleproj.repository.SPUserRepository;
 
 @Service
 public class SPUserService {
 
+	private final SPUserRepository userRepo;
+	
 	@Autowired
-	private SPUserRepository userRepo;
+	public SPUserService(SPUserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
 
 	@Transactional
 	public SPUser getUserById(long id) {
