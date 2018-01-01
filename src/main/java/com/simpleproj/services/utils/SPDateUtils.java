@@ -6,8 +6,8 @@ import java.util.Date;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-public class DateUtils {
-	private static Logger LOG = LogManager.getLogger(DateUtils.class);
+public class SPDateUtils {
+	private static Logger LOG = LogManager.getLogger(SPDateUtils.class);
 
 	public static boolean isWithinDaysFuture(Calendar cal, int days) {
 		if (cal == null) {

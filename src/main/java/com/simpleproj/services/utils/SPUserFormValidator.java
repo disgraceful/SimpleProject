@@ -11,10 +11,10 @@ import com.simpleproj.service.SPUserService;
 import com.simpleproj.web.requestmodel.SPUserRegisterRequestModel;
 
 @Component
-public class UserFormValidator implements Validator {
+public class SPUserFormValidator implements Validator {
 	@Autowired
 	@Qualifier("emailValidator")
-	EmailValidator emailValidator;
+	SPEmailValidator emailValidator;
 
 	@Autowired
 	SPUserService userService;
