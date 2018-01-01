@@ -47,9 +47,13 @@ public class SPUserService {
 			throw new IllegalArgumentException();
 		}
 		SPUser user = new SPUser(login, password);
-		user.addProject(new SPProject("Important tasks"));
-		user.addProject(new SPProject("University"));
-		user.addProject(new SPProject("Personal"));
+		SPProject project1 = new SPProject("Important tasks");
+		SPProject project2 = new SPProject("University");
+		SPProject project3 = new SPProject("Personal");
+		
+		addProject(user.getId(), project1);
+		addProject(user.getId(), project2);
+		addProject(user.getId(), project3);
 		return userRepo.saveAndFlush(user);
 	}
 
