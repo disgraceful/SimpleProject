@@ -1,4 +1,4 @@
-package com.simpleproj.services.utils;
+package com.simpleproj.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -9,12 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.simpleproj.model.SPProject;
 import com.simpleproj.model.SPUser;
 import com.simpleproj.repository.SPUserRepository;
+import com.simpleproj.web.requestmodel.SPUserRegisterRequestModel;
 
 @Service
 public class SPUserService {
 
 	private final SPUserRepository userRepo;
-	
+
 	@Autowired
 	public SPUserService(SPUserRepository userRepo) {
 		this.userRepo = userRepo;
@@ -42,18 +43,15 @@ public class SPUserService {
 	}
 
 	@Transactional
-	public SPUser createUser(String login, String password) {
-		if (login.trim().isEmpty() || password.trim().isEmpty()) {
+	public SPUser createUser(SPUserRegisterRequestModel model) {
+		if (validateRegisterModel(model)) {
 			throw new IllegalArgumentException();
 		}
-		SPUser user = new SPUser(login, password);
-		SPProject project1 = new SPProject("Important tasks");
-		SPProject project2 = new SPProject("University");
-		SPProject project3 = new SPProject("Personal");
-		
-		addProject(user.getId(), project1);
-		addProject(user.getId(), project2);
-		addProject(user.getId(), project3);
+		SPUser user = new SPUser(model.getLogin(), model.getPassword());
+
+		addProject(user.getId(), new SPProject("Important tasks"));
+		addProject(user.getId(), new SPProject("University"));
+		addProject(user.getId(), new SPProject("Personal"));
 		return userRepo.saveAndFlush(user);
 	}
 
@@ -92,6 +90,11 @@ public class SPUserService {
 		SPUser user = userRepo.findOne(userId);
 		user.deleteProject(project);
 		userRepo.save(user);
+	}
+
+	private boolean validateRegisterModel(SPUserRegisterRequestModel model) {
+		return model != null && !model.getLogin().trim().isEmpty() && !model.getPassword().trim().isEmpty()
+				&& model.getPassword().trim().equals(model.getConfirmPassword().trim());
 	}
 
 }

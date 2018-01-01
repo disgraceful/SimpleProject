@@ -1,0 +1,204 @@
+body {
+	margin: 0;
+}
+
+.text_aligner {
+	position: fixed;
+	margin: 4px;
+}
+
+#projects {
+	margin: 0;
+}
+
+ul.topnav {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	background-color: #333;
+	position: fixed;
+	width: 100%;
+	height:60px;
+}
+
+ul.sidenav {
+	list-style-type: none;
+	margin-top: 60px;
+	padding: 0;
+	width: 20%;
+	background-color: #f1f1f1;
+	position: fixed;
+	height: 100%;
+}
+
+ul.topnav li {
+	float: left;
+}
+
+ul.topnav li a {
+	transition: .3s;
+	display: inline-block;
+	color: white;
+	text-align: center;
+	padding: 15px 15px;
+	text-decoration: none;
+}
+
+ul.sidenav li a {
+	transition: .3s;
+	display: block;
+	color: #000;
+	padding: 16px 16px;
+	text-decoration: none;
+}
+
+ul.sidenav li.bottom {
+	position: fixed;
+	bottom: 0px;
+	width: 20%;
+}
+
+#projects.sidenav li a {
+	transition: .3s;
+	display: block;
+	color: #000;
+	padding: 8px 16px;
+	text-decoration: none;
+}
+
+ul.topnav li a:hover:not(.not_active ){
+	background-color: #111;
+}
+
+ul.topnav li a.not_active {
+	margin-top: 5px;
+}
+
+ul.topnav li.right {
+	float: right;
+}
+
+ul.topnav li.center {
+	position: relative;
+	padding-left: 20%;
+}
+
+.mycontent li:hover>a{
+	background-color: #555;
+	color: white;
+}
+
+.mycontent li > .icon_container > a:hover{
+	color:white;	
+}
+
+.sidenav li:hover > a , #projects.sidenav li:hover .proj_popup{
+	background-color: #555;
+	color: white;
+	display:block;
+}
+
+#projects.sidenav li:hover>a{
+	background-color: #555;
+	color: white;
+}
+
+#projects.sidenav li> .proj_popup> a:hover{
+	color: white;
+}
+
+.proj_popup:hover{
+	background-color: #555;
+	color: white;
+}
+
+.mycontent li a:hover .icon_container{
+	background-color: #555;
+	color: white;
+}
+
+ul.sidenav li a:active {
+	background-color: teal;
+	color: white;
+}
+
+.sidenav#projects li a:hover {
+	background-color: #555;
+	color: white;
+}
+
+#projects.sidenav li a:active {
+	background-color: teal;
+	color: white;
+}
+
+#main {
+	position: fixed;
+	margin-left: 20%;
+	margin-top: 60px;
+	height: 100%;
+	width: 100%;
+	background-color: #d6d7d8;
+	z-index:-1;
+}
+
+.mycontent {
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+}
+
+.mycontent li a {
+	display: block;
+	text-decoration: none;
+	color: black;
+}
+
+.task_icons {
+	position: fixed;
+	right: 0px;
+}
+
+.proj_container {
+	padding: 10px;
+	height: 100%;
+}
+
+#create_proj {
+	position: fixed;
+	width: 20%;
+	margin-top: 60px;
+	height: 100%;
+	right: 0;
+	background-color: #f1f1f1;
+	z-index:-1;
+}
+
+.proj_popup{
+	position:relative;
+	float:right;
+	width:100px;
+	margin-right:-100px;
+	margin-top:-46px;
+	z-index:100;
+	display:none;	
+}
+
+.icon_container{
+	position:fixed;
+	right:10px;
+	width:100px;
+	margin-left:-100px;
+	margin-top:-40px;
+	padding:0px; display:inline-block;
+}
+
+#create_task{
+	position: relative;
+	float:right;
+	margin-top: 60px;
+	background-color: white;
+	padding:5px;
+	display: none;
+	z-index: 100;
+}

@@ -61,10 +61,8 @@ public class SPWelcomeController {
 
 		mav.addObject("user", user);
 		mav.addObject("projects", projService.getProjectsByUserId(user.getId()));
-
-		for (SPProject proj : projService.getProjectsByUserId(user.getId())) {
-			
-		}
+		mav.addObject("tasks",taskService.getTasksForToday());
+		
 		return mav;
 	}
 }

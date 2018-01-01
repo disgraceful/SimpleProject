@@ -101,21 +101,21 @@ public class SPUserServiceTests {
 		verify(userRepo).findByLogin("Login");
 	}
 	
-	@Test
-	public void testCreateUser() {
-		SPUser test = userService.createUser("Login", "Password");
-		assertEquals(test, user);
-		assertEquals(test.getId(), user.getId());
-		assertEquals(test.getLogin(), user.getLogin());
-		assertEquals(test.getPassword(), user.getPassword());	
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testCreateInvalidUser() {
-		SPUser test = userService.createUser("Login", "");
-		assertEquals(test, user);
-		assertEquals(test.getId(), user.getId());
-		assertEquals(test.getLogin(), user.getLogin());
-		assertEquals(test.getPassword(), user.getPassword());	
-	}
+//	@Test
+//	public void testCreateUser() {
+//		SPUser test = userService.createUser("Login", "Password");
+//		assertEquals(test, user);
+//		assertEquals(test.getId(), user.getId());
+//		assertEquals(test.getLogin(), user.getLogin());
+//		assertEquals(test.getPassword(), user.getPassword());	
+//	}
+//	
+//	@Test(expected = IllegalArgumentException.class)
+//	public void testCreateInvalidUser() {
+//		SPUser test = userService.createUser("Login", "");
+//		assertEquals(test, user);
+//		assertEquals(test.getId(), user.getId());
+//		assertEquals(test.getLogin(), user.getLogin());
+//		assertEquals(test.getPassword(), user.getPassword());	
+//	}
 }

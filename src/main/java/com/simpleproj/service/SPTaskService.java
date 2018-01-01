@@ -2,6 +2,7 @@ package com.simpleproj.service;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import com.simpleproj.model.SPTask;
 import com.simpleproj.repository.SPProjectRepository;
 import com.simpleproj.repository.SPTaskRepository;
 import com.simpleproj.repository.SPUserRepository;
+import com.simpleproj.utils.SPDateUtils;
 
 @Service
 public class SPTaskService {
@@ -46,6 +48,20 @@ public class SPTaskService {
 		return taskRepo.findAll();
 	}
 
+	
+	@Transactional
+	public List<SPTask>getTasksForWeek(){
+		return taskRepo.findAll().stream()
+				.filter(e -> SPDateUtils.isWithinDaysFuture(e.getStartDate(),6))
+				.collect(Collectors.toList());
+	}
+	
+	@Transactional
+	public List<SPTask> getTasksForToday() {
+		return taskRepo.findAll().stream()
+				.filter(e -> SPDateUtils.isToday(e.getStartDate()))
+				.collect(Collectors.toList());
+	}
 	@Transactional
 	public SPTask createTask(String name, Calendar date) {
 		if (name.trim().isEmpty() || date == null) {

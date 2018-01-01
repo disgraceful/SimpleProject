@@ -58,16 +58,16 @@ public class SPDALTests {
 		Assert.assertEquals(found.getName(), task.getName());
 	}
 
-	@Test
-	public void testRelationship() {
- 		SPUser test = userService.createUser(user.getLogin(), user.getPassword());
-		project = projectService.createProject(project);
-		test = userService.getUserById(2);
-		userService.addProject(test.getId(), project);
-		test = userService.getUserById(2);
-		System.out.println(test.getProjects().size());
-		project = projectService.getProjectById(project.getId());
-		System.out.println(project.getUser());
-
-	}
+//	@Test
+//	public void testRelationship() {
+// 		SPUser test = userService.createUser(user.getLogin(), user.getPassword());
+//		project = projectService.createProject(project);
+//		test = userService.getUserById(2);
+//		userService.addProject(test.getId(), project);
+//		test = userService.getUserById(2);
+//		System.out.println(test.getProjects().size());
+//		project = projectService.getProjectById(project.getId());
+//		System.out.println(project.getUser());
+//
+//	}
 }

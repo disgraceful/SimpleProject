@@ -1,4 +1,4 @@
-package com.simpleproj.services.utils;
+package com.simpleproj.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
