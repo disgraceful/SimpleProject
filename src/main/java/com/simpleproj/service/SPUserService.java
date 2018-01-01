@@ -1,11 +1,16 @@
 package com.simpleproj.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.simpleproj.dto.SPUserDTO;
 import com.simpleproj.model.SPProject;
 import com.simpleproj.model.SPUser;
 import com.simpleproj.repository.SPUserRepository;
@@ -15,44 +20,50 @@ import com.simpleproj.web.requestmodel.SPUserRegisterRequestModel;
 public class SPUserService {
 
 	private final SPUserRepository userRepo;
+	private final ModelMapper modelMapper;
+	private static final Logger LOG = LoggerFactory.getLogger(SPUserService.class);
+
 
 	@Autowired
-	public SPUserService(SPUserRepository userRepo) {
+	public SPUserService(SPUserRepository userRepo, ModelMapper modelMapper) {
 		this.userRepo = userRepo;
+		this.modelMapper = modelMapper;
 	}
 
 	@Transactional
-	public SPUser getUserById(long id) {
+	public SPUserDTO getUserById(long id) {
 		if (id < 1 || id > Long.MAX_VALUE) {
 			throw new IllegalArgumentException();
 		}
-		return userRepo.findOne(id);
+		return modelMapper.map(userRepo.findOne(id), SPUserDTO.class);
 	}
 
 	@Transactional
-	public List<SPUser> getUsers() {
-		return userRepo.findAll();
+	public List<SPUserDTO> getUsers() {
+		return userRepo.findAll().stream()
+				.map(e->modelMapper.map(e, SPUserDTO.class))
+				.collect(Collectors.toList());
 	}
 
 	@Transactional
-	public SPUser getUserByLogin(String login) {
+	public SPUserDTO getUserByLogin(String login) {
 		if (login.trim().isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		return userRepo.findByLogin(login);
+		return modelMapper.map(userRepo.findByLogin(login),SPUserDTO.class);
 	}
 
 	@Transactional
-	public SPUser createUser(SPUserRegisterRequestModel model) {
-		if (validateRegisterModel(model)) {
+	public SPUserDTO createUser(SPUserRegisterRequestModel model) {
+		if (!validateRegisterModel(model)) {
 			throw new IllegalArgumentException();
 		}
 		SPUser user = new SPUser(model.getLogin(), model.getPassword());
-
+		userRepo.save(user);
 		addProject(user.getId(), new SPProject("Important tasks"));
 		addProject(user.getId(), new SPProject("University"));
 		addProject(user.getId(), new SPProject("Personal"));
-		return userRepo.saveAndFlush(user);
+		return modelMapper.map(userRepo.saveAndFlush(user),SPUserDTO.class);
 	}
 
 	@Transactional

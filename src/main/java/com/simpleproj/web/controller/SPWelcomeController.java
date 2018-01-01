@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import com.simpleproj.model.SPProject;
+import com.simpleproj.dto.SPUserDTO;
 import com.simpleproj.model.SPUser;
 import com.simpleproj.service.SPProjectService;
 import com.simpleproj.service.SPTaskService;
@@ -23,10 +23,8 @@ import com.simpleproj.web.requestmodel.SPUserRegisterRequestModel;
 public class SPWelcomeController {
 	@Autowired
 	private SPUserService userService;
-
 	@Autowired
 	private SPProjectService projService;
-
 	@Autowired
 	private SPTaskService taskService;
 
@@ -47,7 +45,7 @@ public class SPWelcomeController {
 	@RequestMapping(value = "/tasklist")
 	public ModelAndView welcome(HttpSession session, ModelMap model, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("tasklistmain");
-		SPUser user = (SPUser) session.getAttribute("user");
+		SPUserDTO user = (SPUserDTO) session.getAttribute("user");
 		Cookie userCookie = WebUtils.getCookie(request, "userId");
 		if (user == null) {
 			if (userCookie != null) {

@@ -46,8 +46,8 @@ public class SPDALTests {
 		task = new SPTask("Do stuff", new GregorianCalendar(2017, 11, 20));
 		user = new SPUser("login", "password");
 		project = new SPProject("proj");
-		projectService = new SPProjectService(projRepo,userRepo);
-		userService = new SPUserService(userRepo);
+	//	projectService = new SPProjectService(projRepo,userRepo);
+	//	userService = new SPUserService(userRepo);
 	}
 
 	@Test

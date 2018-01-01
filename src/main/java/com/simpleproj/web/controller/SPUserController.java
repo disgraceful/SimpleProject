@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import com.simpleproj.dto.SPUserDTO;
 import com.simpleproj.model.SPUser;
 import com.simpleproj.service.SPUserService;
 import com.simpleproj.utils.SPUserFormValidator;
@@ -38,7 +39,7 @@ public class SPUserController {
 	public ModelAndView register(@ModelAttribute("user") SPUserRegisterRequestModel userModel, BindingResult result,
 			HttpSession session, HttpServletResponse response, HttpServletRequest request) {
 
-		SPUser user = userService.createUser(userModel);
+		SPUserDTO user = userService.createUser(userModel);
 		session.setAttribute("user", user);
 		Cookie userCookie = WebUtils.getCookie(request, "userId");
 		if (userCookie != null) {
@@ -54,7 +55,7 @@ public class SPUserController {
 	public ModelAndView login(@ModelAttribute("user") SPUserLoginRequestModel userModel, BindingResult result, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request) {
 
-		SPUser user = userService.getUserByLogin(userModel.getLogin());
+		SPUserDTO user = userService.getUserByLogin(userModel.getLogin());
 		session.setAttribute("user", user);
 		Cookie userCookie = WebUtils.getCookie(request, "userId");
 		if (userCookie != null) {

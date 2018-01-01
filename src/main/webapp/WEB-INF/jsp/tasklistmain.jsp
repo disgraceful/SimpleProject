@@ -19,23 +19,24 @@
 			<i class="material-icons">menu</i>
 		</a></li>
 		<li class="center"><a class="not_active">Date</a></li>
-		<li class="right"><a href="<c:url value="${logoutUrl}"/>">
+		<li class="right">
+			<a href="<c:url value="${logoutUrl}"/>">
 			<i class="material-icons">exit_to_app</i></a></li>
-		<li class="right"><a onclick="showCreateTask()"><i
-				class="material-icons">add</i></a></li>
+		<li class="right">
+			<a onclick="showCreateTask()">
+			<i class="material-icons">add</i></a></li>
 	</ul>
 
 	<ul id="sidebar" class="sidenav">
-		<li><a> <i class="material-icons">face</i> <span
-				class="text_aligner">${user.login}</span>
+		<li><a> 
+			<i class="material-icons">face</i>
+			<span class="text_aligner">${user.login}</span>
 		</a></li>
-		<li>
-		<a class="show_today">
+		<li><a class="show_today">
 			<i class="material-icons">today</i> 
 			<span class="text_aligner">Today</span>
 			<span style="float: right; padding: 4px;">12</span>
-		</a>
-		</li>
+		</a></li>
 		<li><a class="show_week">
 			<i class="material-icons">date_range</i>
 			<span class="text_aligner">Next 7 Days</span>
@@ -64,8 +65,8 @@
 				</c:forEach>
 				
 				<li class="bottom"><a href="javascript:addProject()">
-					<i	class="material-icons">add</i>
-					<span class="text_aligner">Add	new project</span>
+					<i class="material-icons">add</i>
+					<span class="text_aligner">Add new project</span>
 				</a></li>
 			</ul>
 		</li>
@@ -76,13 +77,11 @@
 			<span> Add Project </span>
 			<form class="col s12">
 				<div class="input-field col s6">
-					<input placeholder="Project Name" id="first_name" type="text"
-						class="validate">
+					<input placeholder="Project Name" id="first_name" type="text" class="validate">
 				</div>
 				<div class="row">
-					<a class="waves-effect waves-light btn">Save</a> <a
-						href="javascript:addProject()"
-						class="waves-effect waves-light btn red">Cancel</a>
+					<a class="waves-effect waves-light btn">Save</a>
+					<a href="javascript:addProject()" class="waves-effect waves-light btn red">Cancel</a>
 				</div>
 			</form>
 		</div>
@@ -93,13 +92,12 @@
 	<div id="create_task">
 		<form class="col s12">
 			<div class="input-field col s6">
-				<input placeholder="What do you want to get done?" type="text"
-					class="validate"> <input placeholder="Pick a date"
-					type="date" class="datepicker">
+				<input placeholder="What do you want to get done?" type="text" class="validate">
+				<input placeholder="Pick a date" type="date" class="datepicker">
 			</div>
 			<div class="row">
-				<a class="waves-effect waves-light btn">Add</a> <a
-					onclick="showCreateTask()" class="waves-effect waves-light btn red">Cancel</a>
+				<a class="waves-effect waves-light btn">Add</a>
+				<a onclick="showCreateTask()" class="waves-effect waves-light btn red">Cancel</a>
 			</div>
 		</form>
 	</div>

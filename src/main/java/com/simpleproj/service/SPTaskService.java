@@ -1,13 +1,16 @@
 package com.simpleproj.service;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.simpleproj.dto.SPTaskDTO;
 import com.simpleproj.model.SPTask;
 import com.simpleproj.repository.SPProjectRepository;
 import com.simpleproj.repository.SPTaskRepository;
@@ -19,64 +22,60 @@ public class SPTaskService {
 	private final SPProjectRepository projRepo;
 	private final SPUserRepository userRepo;
 	private final SPTaskRepository taskRepo;
+	private final ModelMapper modelMapper;
 
 	@Autowired
-	public SPTaskService(SPProjectRepository projRepo, SPUserRepository userRepo, SPTaskRepository taskRepo) {
+	public SPTaskService(SPProjectRepository projRepo, SPUserRepository userRepo, SPTaskRepository taskRepo,
+			ModelMapper modelMapper) {
 		this.projRepo = projRepo;
 		this.userRepo = userRepo;
 		this.taskRepo = taskRepo;
+		this.modelMapper = modelMapper;
 	}
 
 	@Transactional
-	public SPTask getTaskById(long id) {
+	public SPTaskDTO getTaskById(long id) {
 		if (id < 1 || id > Long.MAX_VALUE) {
 			throw new IllegalArgumentException();
 		}
-		return taskRepo.findOne(id);
+		return map(taskRepo.findOne(id));
 	}
 
 	@Transactional
-	public SPTask getTaskByName(String name) {
+	public SPTaskDTO getTaskByName(String name) {
 		if (name.trim().isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		return taskRepo.findTaskByName(name);
+		return map(taskRepo.findTaskByName(name));
 	}
 
 	@Transactional
-	public List<SPTask> getTasks() {
-		return taskRepo.findAll();
+	public List<SPTaskDTO> getTasks() {
+		return taskRepo.findAll().stream().map(e -> map(e)).collect(Collectors.toList());
 	}
 
-	
 	@Transactional
-	public List<SPTask>getTasksForWeek(){
-		return taskRepo.findAll().stream()
-				.filter(e -> SPDateUtils.isWithinDaysFuture(e.getStartDate(),6))
+	public List<SPTaskDTO> getTasksForWeek() {
+		return taskRepo.findAll().stream().filter(e -> SPDateUtils.isWithinDaysFuture(e.getStartDate(), 6))
+				.map(e -> map(e)).collect(Collectors.toList());
+	}
+
+	@Transactional
+	public List<SPTaskDTO> getTasksForToday() {
+		return taskRepo.findAll().stream().filter(e -> SPDateUtils.isToday(e.getStartDate())).map(e -> map(e))
 				.collect(Collectors.toList());
 	}
-	
+
 	@Transactional
-	public List<SPTask> getTasksForToday() {
-		return taskRepo.findAll().stream()
-				.filter(e -> SPDateUtils.isToday(e.getStartDate()))
-				.collect(Collectors.toList());
-	}
-	@Transactional
-	public SPTask createTask(String name, Calendar date) {
+	public SPTaskDTO createTask(String name, Calendar date, long projId, long userId) {
 		if (name.trim().isEmpty() || date == null) {
 			throw new IllegalArgumentException();
 		}
-		try {
-			Calendar cal = Calendar.getInstance();
-			cal.setLenient(false);
-			cal.setTime(date.getTime());
-			cal.getTime();
-			SPTask task = new SPTask(name, date);
-			return taskRepo.save(task);
-		} catch (Exception e) {
-			throw new IllegalArgumentException();
-		}
+		SPTask task = new SPTask(name, date);
+		task.setProject(projRepo.findOne(projId));
+		task.setUser(userRepo.findOne(userId));
+		return map(taskRepo.save(task));
+		
 
 	}
 
@@ -97,19 +96,19 @@ public class SPTaskService {
 	}
 
 	@Transactional
-	public List<SPTask> getTasksByUserId(long id) {
+	public List<SPTaskDTO> getTasksByUserId(long id) {
 		if (id < 1 || id > Long.MAX_VALUE) {
 			throw new IllegalArgumentException();
 		}
-		return userRepo.findOne(id).getTasks();
+		return userRepo.findOne(id).getTasks().stream().map(e -> map(e)).collect(Collectors.toList());
 	}
 
 	@Transactional
-	public List<SPTask> getTasksByProjectId(long id) {
+	public List<SPTaskDTO> getTasksByProjectId(long id) {
 		if (id < 1 || id > Long.MAX_VALUE) {
 			throw new IllegalArgumentException();
 		}
-		return projRepo.findOne(id).getTasks();
+		return projRepo.findOne(id).getTasks().stream().map(e -> map(e)).collect(Collectors.toList());
 	}
 
 	@Transactional
@@ -120,6 +119,14 @@ public class SPTaskService {
 		SPTask task = taskRepo.findOne(id);
 		task.setCompleted(true);
 		taskRepo.save(task);
+	}
+
+	private SPTaskDTO map(SPTask task) {
+		SPTaskDTO taskDTO = modelMapper.map(task, SPTaskDTO.class);
+		taskDTO.setConvertedDate(task.getTaskTime());
+		taskDTO.setProjId(task.getProject().getId());
+		taskDTO.setUserId(task.getUser().getId());
+		return taskDTO;
 	}
 
 }

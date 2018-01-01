@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name = "SP_TASKS")
 public class SPTask {
@@ -21,16 +19,16 @@ public class SPTask {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
-	@Column(name="startdate")
+	@Column(name = "startdate")
 	private Calendar startDate;
-	@Column(name="iscompleted")
+	@Column(name = "iscompleted")
 	private boolean isCompleted;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "userid")
+	@JoinColumn(name = "userid")
 	private SPUser user;
 	@ManyToOne
-    @JoinColumn(name = "projectid",nullable=true)
+	@JoinColumn(name = "projectid", nullable = true)
 	private SPProject project;
 
 	public SPTask() {// NOSONAR
