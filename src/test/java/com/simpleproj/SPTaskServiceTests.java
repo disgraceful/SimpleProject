@@ -73,8 +73,6 @@ public class SPTaskServiceTests {
 				return null;
 			}
 		}).when(taskRepo).delete(any(SPTask.class));
-
-		when(taskRepo.save(any(SPTask.class))).thenReturn(any(SPTask.class));
 		doThrow(new RuntimeException()).when(taskRepo).delete(task);
 		when(taskRepo.save(any(SPTask.class))).thenReturn(task);
 		when(taskRepo.findAll()).thenReturn(new ArrayList<SPTask>() {
@@ -166,7 +164,6 @@ public class SPTaskServiceTests {
 		assertEquals(test, task);
 		assertEquals(test.getName(), testName);
 		assertEquals(test.getStartDate(), calendar);
-		verify(taskRepo).save(task);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

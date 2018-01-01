@@ -76,6 +76,7 @@ public class SPUserService {
 		}
 		SPUser user = userRepo.findOne(userId);
 		user.addProject(project);
+		project.setUser(user);
 		userRepo.save(user);
 	}
 

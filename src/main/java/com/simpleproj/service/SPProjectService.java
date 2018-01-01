@@ -14,12 +14,15 @@ import com.simpleproj.repository.SPUserRepository;
 @Service
 public class SPProjectService {
 
-	@Autowired
 	private SPProjectRepository projRepo;
-
-	@Autowired
 	private SPUserRepository userRepo;
 
+	@Autowired
+	public SPProjectService(SPProjectRepository projRepo, SPUserRepository userRepo){
+		this.projRepo = projRepo;
+		this.userRepo = userRepo;
+	}
+	
 	@Transactional
 	public SPProject getProjectById(long id) {
 		if (id < 1 || id > Long.MAX_VALUE) {
@@ -72,6 +75,7 @@ public class SPProjectService {
 		}
 		SPProject proj = projRepo.findOne(projId);
 		proj.addTask(task);
+		task.setProject(proj);
 		projRepo.save(proj);
 	}
 
